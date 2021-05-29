@@ -123,7 +123,7 @@
                                                 $evento = \App\Models\Evento::find($value['evento_id'])->first()->toArray();
                                             @endphp
                                             <li>
-                                                Você foi convidado para partificar do evento: {{$evento['descricao']}}
+                                                Você foi convidado para participar do evento: {{$evento['descricao']}}
                                             </li>
                                         @endforeach
                                     </ul>

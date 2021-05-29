@@ -16,10 +16,10 @@ class EventoUserController extends Controller {
              */
             if (strcasecmp($status, 'aceitar') == 0) {
                 $status = 'sim';
-                $aviso = 'Você aceitou partificar do evento.';
+                $aviso = 'Você aceitou participar do evento.';
             } else if (strcasecmp($status, 'recusar') == 0) {
                 $status = 'nao';
-                $aviso = 'Você recusou partificar do evento.';
+                $aviso = 'Você recusou participar do evento.';
             }
             EventoUser::where('id', $id)->update([
                 'convite_aceito' => $status,
