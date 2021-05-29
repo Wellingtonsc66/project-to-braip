@@ -37,12 +37,12 @@
                                         <td>{{date_format(date_create($value['data_evento']), 'd/m/Y')}}</td>
                                         <td width="220px">
                                             <x-button id="btn-save">
-                                                <a href="{{ route('evento.editar-evento-user').'/'.$value['id'].'/aceitar' }}">
+                                                <a href="{{ route('evento-user.editar').'/'.$value['id'].'/aceitar' }}">
                                                     {{ __('Aceitar') }}
                                                 </a>
                                             </x-button>
                                             <x-button id="btn-save">
-                                                <a href="{{ route('evento.editar-evento-user').'/'.$value['id'].'/recusar' }}">
+                                                <a href="{{ route('evento-user.editar').'/'.$value['id'].'/recusar' }}">
                                                     {{ __('Recusar') }}
                                                 </a>
                                             </x-button>

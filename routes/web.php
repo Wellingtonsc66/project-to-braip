@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Evento\EventoController;
+use App\Http\Controllers\Evento\EventoUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,22 +19,10 @@ use App\Http\Controllers\Evento\EventoController;
 Route::redirect('/', '/login');
 
 Route::group(['prefix'=>'dashboard', 'middleware'=>'auth'], function (){
-    Route::get('/', function () {
-        $user = Illuminate\Support\Facades\Auth::user()->toArray();
-        $convites = \App\Models\EventoUser::where([['user_id', $user['id']], ['convite_aceito', 'aguardando']])->get()->toArray();
-        foreach ($convites as $key=>$value) {
-            $evento = \App\Models\Evento::find($value['evento_id'])->first()->toArray();
-            $autor = \App\Models\User::find($value['user_id'])->first()->toArray();
-            $convites[$key]['eventoId'] = $evento['id'];
-            $convites[$key]['data_evento'] = $evento['data_evento'];
-            $convites[$key]['descricao'] = $evento['descricao'];
-            $convites[$key]['autor'] = $autor['name'];
-        }
-        return view('dashboard', compact('convites'));
-    })->name('dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::match(['get', 'post'],'/evento/adicionar', [EventoController::class, 'adicionar'])->name('evento.adicionar');
-    Route::get('/evento/editar-evento-user/{id?}/{status?}', [EventoController::class, 'editarEventoUser'])->name('evento.editar-evento-user');
+    Route::get('/evento/editar/{id?}/{status?}', [EventoUserController::class, 'editar'])->name('evento-user.editar');
     Route::get('/evento/excluir/{id?}', [EventoController::class, 'excluir'])->name('evento.excluir');
     Route::match(['get', 'post'],'/evento/meus-eventos', [EventoController::class, 'meusEventos'])->name('evento.meus-eventos');
 });

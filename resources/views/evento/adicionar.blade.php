@@ -12,15 +12,6 @@
                     <x-auth-session-status class="mb-4" :status="session('status')"/>
                     <form method="POST" action="{{ route('evento.adicionar') }}">
                         @csrf
-                        @if(!empty(session('avisos')))
-                            @if( is_array(session('avisos') ))
-                                @foreach(session('avisos') as $cada_mensagem)
-                                    <li style="color: red">{{$cada_mensagem}}</li>
-                                @endforeach
-                            @else
-                                <li style="color: red">{{session('avisos')}}</li>
-                            @endif
-                        @endif
                         <div class="flex flex-wrap" id="add">
                             <div class="mt-4 w-1/2 md:inline-block px-1">
                                 <x-label for="descricao" :value="__('Descrição')" />
