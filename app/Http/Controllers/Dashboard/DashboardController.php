@@ -14,8 +14,8 @@ class DashboardController extends Controller {
         $user = Auth::user()->toArray();
         $convites = EventoUser::where([['user_id', $user['id']], ['convite_aceito', 'aguardando']])->get()->toArray();
         foreach ($convites as $key=>$value) {
-            $evento = Evento::find($value['evento_id'])->first()->toArray();
-            $autor = User::find($value['user_id'])->first()->toArray();
+            $evento = Evento::firstWhere('id', $value['evento_id'])->toArray();
+            $autor = User::firstWhere('id', $value['user_id'])->toArray();
             $convites[$key]['eventoId'] = $evento['id'];
             $convites[$key]['data_evento'] = $evento['data_evento'];
             $convites[$key]['descricao'] = $evento['descricao'];

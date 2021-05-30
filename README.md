@@ -19,3 +19,8 @@ Para executar o projeto basta executar php artisan serve.
 Devido a falta de tempo não conseguir casos de testes.
 
 Utilizei o db padrão, o MySql.
+Nome do banco: projectbraipwellington
+
+Executar comando: php artisan migrate --seed
+
+Para subir tabelas e criar alguns registros para pronto teste.

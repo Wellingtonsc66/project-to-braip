@@ -23,7 +23,7 @@
     .table-p tr {
         -webkit-transition: background-color .2s ease;
         transition: background-color .2s ease;
-        border-bottom: 1px solid #e2e2e2;
+        border: 1px solid #e2e2e2;
     }
     .table-p td {
         padding: 5px 7px;
@@ -120,7 +120,7 @@
                                     <ul>
                                         @foreach($convites as $value)
                                             @php
-                                                $evento = \App\Models\Evento::find($value['evento_id'])->first()->toArray();
+                                                $evento = \App\Models\Evento::find($value['evento_id'])->toArray();
                                             @endphp
                                             <li>
                                                 Você foi convidado para participar do evento: {{$evento['descricao']}}

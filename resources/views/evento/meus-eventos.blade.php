@@ -8,8 +8,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
-                    @if(!$eventos)
+                <div class="p-6 bg-white">
+                    @if(!$meus_eventos)
                         <div class="b-promo">
                             <h3 class="no-atrr">Não há eventos para serem listados.</h3>
                             Clique em Adicionar Evento para criar novo evento.
@@ -18,6 +18,7 @@
                         <table class="table-p">
                             <thead>
                             <tr>
+                                <td colspan="1" style="visibility: hidden"></td>
                                 <td colspan="4">SEUS EVENTOS</td>
                             </tr>
                             <tr>
@@ -28,9 +29,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($eventos as $key=>$value)
+                            @foreach($meus_eventos as $key=>$value)
                                 <tr>
-                                    <td>{{$value['id']}}</td>
+                                    <td>{{$key+1}}</td>
                                     <td>{{$value['descricao']}}</td>
                                     <td>{{date_format(date_create($value['data_evento']), 'd/m/Y')}}</td>
                                     <td width="150px">
@@ -46,6 +47,36 @@
                         </table>
                     @endif
                 </div>
+                @if($eventos_convidados)
+                    <div class="p-6 bg-white">
+                        <table class="table-p">
+                            <thead>
+                            <tr>
+                                <td colspan="1" style="visibility: hidden"></td>
+                                <td colspan="5">CONVITES</td>
+                            </tr>
+                            <tr>
+                                <td>#</td>
+                                <td>DESCRIÇÃO</td>
+                                <td>AUTOR DO EVENTO</td>
+                                <td>SITUAÇÃO</td>
+                                <td>DATA DO EVENTO</td>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach($eventos_convidados as $key=>$value)
+                                <tr>
+                                    <td>{{$key+1}}</td>
+                                    <td>{{$value['descricao']}}</td>
+                                    <td>{{$value['name']}}</td>
+                                    <td>{{$value['convite_aceito'] == 'sim'? 'Aceito' : 'Recusado'}}</td>
+                                    <td>{{date_format(date_create($value['data_evento']), 'd/m/Y')}}</td>
+                                </tr>
+                            @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

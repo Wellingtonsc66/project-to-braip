@@ -18,6 +18,7 @@
                         <table class="table-p">
                             <thead>
                                 <tr>
+                                    <td colspan="1" style="visibility: hidden"></td>
                                     <td colspan="6">CONVITES PARA PARTICIPAÇÃO DE EVENTOS</td>
                                 </tr>
                                 <tr>

@@ -56,8 +56,13 @@ class EventoController extends Controller {
 
     public function meusEventos() {
         $user = Auth::user()->toArray();
-        $eventos = Evento::where('autor_id', $user['id'])->get()->toArray();
-        return view('evento.meus-eventos', compact('eventos'));
+        $meus_eventos = Evento::where('autor_id', $user['id'])->get()->toArray();
+        $eventos_convidados = EventoUser::addSelect([
+            'descricao'   => Evento::select('descricao')->whereColumn('id', 'eventos_users.evento_id'),
+            'data_evento' => Evento::select('data_evento')->whereColumn('id', 'eventos_users.evento_id'),
+            'name'        => User::select('name')->whereColumn('id', 'eventos_users.user_id'),
+        ])->where([['user_id', $user['id']], ['convite_aceito', '!=', 'aguardando']])->get()->toArray();
+        return view('evento.meus-eventos', compact('meus_eventos', 'eventos_convidados'));
     }
 
 }
