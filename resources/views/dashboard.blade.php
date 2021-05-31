@@ -32,7 +32,7 @@
                             <tbody>
                                 @foreach($convites as $key=>$value)
                                     <tr>
-                                        <td>{{$value['eventoId']}}</td>
+                                        <td>{{$key+1}}</td>
                                         <td>{{$value['autor']}}</td>
                                         <td>{{$value['descricao']}}</td>
                                         <td>{{date_format(date_create($value['data_evento']), 'd/m/Y')}}</td>

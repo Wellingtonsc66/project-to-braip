@@ -4,16 +4,12 @@ namespace App\Http\Controllers\Evento;
 
 use App\Http\Controllers\Controller;
 use App\Models\EventoUser;
+use Illuminate\Support\Facades\Auth;
 
 class EventoUserController extends Controller {
 
         public function editar($id=null, $status=null) {
-        $aviso = null;
-        if (!empty($id) && !empty($status)) {
-            /*
-             * verificar se id esta vinculado ao usuario
-             * [...]
-             */
+        if (EventoUser::where([['user_id', Auth::user()['id']], ['id', $id], ['convite_aceito', 'aguardando']])->firstOrFail()) {
             if (strcasecmp($status, 'aceitar') == 0) {
                 $status = 'sim';
                 $aviso = 'Você aceitou participar do evento.';

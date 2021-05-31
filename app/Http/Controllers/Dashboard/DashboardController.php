@@ -11,16 +11,11 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller {
 
     public function index() {
-        $user = Auth::user()->toArray();
-        $convites = EventoUser::where([['user_id', $user['id']], ['convite_aceito', 'aguardando']])->get()->toArray();
-        foreach ($convites as $key=>$value) {
-            $evento = Evento::firstWhere('id', $value['evento_id'])->toArray();
-            $autor = User::firstWhere('id', $value['user_id'])->toArray();
-            $convites[$key]['eventoId'] = $evento['id'];
-            $convites[$key]['data_evento'] = $evento['data_evento'];
-            $convites[$key]['descricao'] = $evento['descricao'];
-            $convites[$key]['autor'] = $autor['name'];
-        }
+        $convites = EventoUser::addSelect([
+            'descricao'   => Evento::select('descricao')->whereColumn('id', 'eventos_users.evento_id'),
+            'data_evento' => Evento::select('data_evento')->whereColumn('id', 'eventos_users.evento_id'),
+            'autor'       => User::select('name')->whereColumn('id', 'eventos_users.user_id'),
+        ])->where([['user_id', Auth::user()['id']], ['convite_aceito', 'aguardando']])->get()->toArray();
         return view('dashboard', compact('convites'));
     }
 
