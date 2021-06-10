@@ -101,7 +101,7 @@
                         @endphp
                         <x-slot name="trigger">
                             @if($convites)
-                                <figure style="width: 9px;border-radius: 20px;height: 9px;left: 15px;top: 15px;position: absolute;background: #df4a32;" class="notificacao"></figure>
+                                <figure style="width: 9px;border-radius: 20px;height: 9px;left: 15px;top: 15px;position: absolute;background: #ef4444;" class="notificacao"></figure>
                             @endif
                             <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                                 <div style="width: 25px">

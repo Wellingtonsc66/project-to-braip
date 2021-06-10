@@ -8,6 +8,7 @@ use App\Models\EventoUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class EventoController extends Controller {
 
@@ -50,11 +51,12 @@ class EventoController extends Controller {
     public function meusEventos() {
         $user = Auth::user()->toArray();
         $meus_eventos = Evento::where('autor_id', $user['id'])->get()->toArray();
-        $eventos_convidados = EventoUser::addSelect([
-            'descricao'   => Evento::select('descricao')->whereColumn('id', 'eventos_users.evento_id'),
-            'data_evento' => Evento::select('data_evento')->whereColumn('id', 'eventos_users.evento_id'),
-            'name'        => User::select('name')->whereColumn('id', 'eventos_users.user_id'),
-        ])->where([['user_id', $user['id']], ['convite_aceito', '!=', 'aguardando']])->get()->toArray();
+        $eventos_convidados = DB::table('eventos_users')
+            ->join('eventos', 'eventos_users.evento_id', '=', 'eventos.id')
+            ->join('users', 'eventos.autor_id', '=', 'users.id')
+            ->select('eventos_users.*', 'eventos.descricao', 'eventos.data_evento', 'users.name as autor')
+            ->where([['user_id', Auth::user()['id']], ['convite_aceito', 'aguardando']])
+            ->get();
         return view('evento.meus-eventos', compact('meus_eventos', 'eventos_convidados'));
     }
 

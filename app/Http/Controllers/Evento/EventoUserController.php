@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventoUserController extends Controller {
 
-        public function editar($id=null, $status=null) {
+    public function editar($id=null, $status=null) {
         if (EventoUser::where([['user_id', Auth::user()['id']], ['id', $id], ['convite_aceito', 'aguardando']])->firstOrFail()) {
             if (strcasecmp($status, 'aceitar') == 0) {
                 $status = 'sim';

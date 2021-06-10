@@ -3,20 +3,25 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
-use App\Models\Evento;
-use App\Models\EventoUser;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller {
 
     public function index() {
-        $convites = EventoUser::addSelect([
-            'descricao'   => Evento::select('descricao')->whereColumn('id', 'eventos_users.evento_id'),
-            'data_evento' => Evento::select('data_evento')->whereColumn('id', 'eventos_users.evento_id'),
-            'autor'       => User::select('name')->whereColumn('id', 'eventos_users.user_id'),
-        ])->where([['user_id', Auth::user()['id']], ['convite_aceito', 'aguardando']])->get()->toArray();
-        return view('dashboard', compact('convites'));
+        $convites = DB::table('eventos_users')
+            ->join('eventos', 'eventos_users.evento_id', '=', 'eventos.id')
+            ->join('users', 'eventos.autor_id', '=', 'users.id')
+            ->select('eventos_users.*', 'eventos.descricao', 'eventos.data_evento', 'users.name as autor')
+            ->where([['user_id', Auth::user()['id']], ['convite_aceito', 'aguardando']])
+            ->get();
+        $prox_eventos = DB::table('eventos_users')
+            ->join('eventos', 'eventos_users.evento_id', '=', 'eventos.id')
+            ->join('users', 'eventos.autor_id', '=', 'users.id')
+            ->select('eventos_users.*', 'eventos.descricao', 'eventos.data_evento', 'users.name as autor')
+            ->where([['user_id', Auth::user()['id']], ['convite_aceito', 'sim']])
+            ->get();
+        return view('dashboard', compact('convites', 'prox_eventos'));
     }
 
 }
